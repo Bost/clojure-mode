@@ -811,31 +811,42 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
 
       ;; lambda arguments - %, %&, %1, %2, etc
       ("\\<%[&1-9]?" (0 font-lock-variable-name-face))
-      ;; Special forms
+
+
+      ;; Special forms ;; TODO might not be needed
       (,(concat
          "("
          (regexp-opt
           '("def" "do" "if" "let" "let*" "var" "fn" "fn*" "loop" "loop*"
             "recur" "throw" "try" "catch" "finally"
             "set!" "new" "."
-            "monitor-enter" "monitor-exit" "quote") t)
+            "monitor-enter" "monitor-exit" "quote")
+          t ;; `t' means: the resulting regexp is surrounded by \( and \)
+          )
          "\\>")
        1 font-lock-keyword-face)
       ;; Built-in binding and flow of control forms
-      (,(concat
-         "(\\(?:clojure.core/\\)?"
-         (regexp-opt
-          '("letfn" "case" "cond" "cond->" "cond->>" "condp"
-            "for" "when" "when-not" "when-let" "when-first" "when-some"
-            "if-let" "if-not" "if-some"
-            ".." "->" "->>" "as->" "doto" "and" "or"
-            "dosync" "doseq" "dotimes" "dorun" "doall"
-            "ns" "in-ns"
-            "with-open" "with-local-vars" "binding"
-            "with-redefs" "with-redefs-fn"
-            "declare") t)
-         "\\>")
-       1 font-lock-keyword-face)
+      (,(concat "(\\(?:"
+                "clojure.core"
+                "/\\)?" "\\(" ;; TODO try this out
+                (regexp-opt
+                 '("letfn" "case" "cond" "cond->" "cond->>" "condp"
+                   "for" "when" "when-not" "when-let" "when-first" "when-some"
+                   "if-let" "if-not" "if-some"
+                   ".." "->" "->>" "as->" "doto" "and" "or"
+                   "dosync" "doseq" "dotimes" "dorun" "doall"
+                   "ns" "in-ns"
+                   "with-open" "with-local-vars" "binding"
+                   "with-redefs" "with-redefs-fn"
+                   "declare")
+                 ;; t ;; `t' means: the resulting regexp is surrounded by \( and \)
+                 )
+                ;; "\\>"
+                clojure--definitions-rest-regex)
+       (1 font-lock-keyword-face)
+       (2 'default nil t) ;; this won't be matched
+       )
+
       ;; Macros similar to let, when, and while
       (,(rx symbol-start
             (or "let" "when" "while") "-"
