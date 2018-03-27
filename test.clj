@@ -8,7 +8,8 @@
    [ve/yCom|pLex.stu-ff]))
 
 (defn foo [x] x)
-;; try to byte-recompile the clojure-mode.el when the face of 'fn' is 't'
+;; try to disable prettify-symbols-mode or byte-recompile the clojure-mode.el
+;; when the face of 'fn' is 't'
 (fn foo [x] x)
 
 #_

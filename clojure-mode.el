@@ -750,37 +750,45 @@ definition of 'macros': URL `http://git.io/vRGLD'.")
 Matches the rule `clojure--sym-forbidden-1st-chars' followed by
 any number of matches of `clojure--sym-forbidden-rest-chars'."))
 
+(defconst clojure--definitions-rest-regex
+  (concat
+   ;; Declarations
+   "\\)\\>"
+   ;; Any whitespace
+   "[ \r\n\t]*"
+   ;; Possibly type or metadata
+   "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)[ \r\n\t]*\\)*"
+   "\\(\\sw+\\)?"))
+
 (defconst clojure-font-lock-keywords
   (eval-when-compile
     `( ;; Top-level variable definition
-      (,(concat "(\\(?:clojure.core/\\)?\\("
+      (,(concat "(\\(?:"
+                "clojure.core"
+                "/\\)?\\("
                 (regexp-opt '("def" "defonce"))
                 ;; variable declarations
-                "\\)\\>"
-                ;; Any whitespace
-                "[ \r\n\t]*"
-                ;; Possibly type or metadata
-                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)[ \r\n\t]*\\)*"
-                "\\(\\sw+\\)?")
+                clojure--definitions-rest-regex)
        (1 font-lock-keyword-face)
        (2 font-lock-variable-name-face nil t))
+
       ;; Type definition
-      (,(concat "(\\(?:clojure.core/\\)?\\("
+      (,(concat "(\\(?:"
+                "clojure.core"
+                "/\\)?\\("
+                ;; type declarations
                 (regexp-opt '("defstruct" "deftype" "defprotocol"
                               "defrecord"))
-                ;; type declarations
-                "\\)\\>"
-                ;; Any whitespace
-                "[ \r\n\t]*"
-                ;; Possibly type or metadata
-                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)[ \r\n\t]*\\)*"
-                "\\(\\sw+\\)?")
+                clojure--definitions-rest-regex)
        (1 font-lock-keyword-face)
        (2 font-lock-type-face nil t))
+
       ;; Function definition (anything that starts with def and is not
       ;; listed above)
-      (,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
-                "\\(def[^ \r\n\t]*\\)"
+      (,(concat "(\\(?:"
+                clojure--sym-regexp
+                "/\\)?\\("
+                "def[^ \r\n\t]*"
                 ;; Function declarations
                 "\\>"
                 ;; Any whitespace
@@ -790,14 +798,17 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 (concat "\\(" clojure--sym-regexp "\\)?"))
        (1 font-lock-keyword-face)
        (2 font-lock-function-name-face nil t))
+
       ;; (fn name? args ...)
-      (,(concat "(\\(?:clojure.core/\\)?\\(fn\\)[ \t]+"
-                ;; Possibly type
-                "\\(?:#?^\\sw+[ \t]*\\)?"
-                ;; Possibly name
-                "\\(\\sw+\\)?" )
+      (,(concat "(\\(?:"
+                "clojure.core"
+                "/\\)?\\("
+                "fn"
+                ;; Lambda function declarations
+                clojure--definitions-rest-regex)
        (1 font-lock-keyword-face)
        (2 font-lock-function-name-face nil t))
+
       ;; lambda arguments - %, %&, %1, %2, etc
       ("\\<%[&1-9]?" (0 font-lock-variable-name-face))
       ;; Special forms

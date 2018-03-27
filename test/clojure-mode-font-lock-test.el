@@ -791,11 +791,11 @@ POS."
 
 (ert-deftest clojure-mode-syntax-table/fn ()
   :tags '(fontification syntax-table)
-  ;; try to byte-recompile the clojure-mode.el when the face of 'fn' is 't'
-  (should (eq (clojure-test-face-at 2 3 "(fn foo [x] x)")
-              'font-lock-keyword-face))
-  (should (eq (clojure-test-face-at 5 7 "(fn foo [x] x)")
-              'font-lock-function-name-face)))
+  ;; try to disable prettify-symbols-mode or byte-recompile the clojure-mode.el
+  ;; when the face of 'fn' is 't'
+  (clojure-test-with-temp-buffer  "(fn foo [x] x)"
+    (should (eq (clojure-test-face-at 2 3) 'font-lock-keyword-face))
+    (should (eq (clojure-test-face-at 5 7) 'font-lock-function-name-face))))
 
 (ert-deftest clojure-mode-syntax-table/lambda-params ()
   :tags '(fontification syntax-table)
