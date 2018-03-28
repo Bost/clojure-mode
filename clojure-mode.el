@@ -858,8 +858,17 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
           '("true" "false" "nil") t)
          "\\>")
        0 font-lock-constant-face)
+
+      ;; for [[:punct:]] see
+      ;; https://github.com/typester/emacs/blob/master/lisp/emacs-lisp/rx.el#L225
+      ;; http://ergoemacs.org/emacs/emacs_jump_to_punctuations.html
+      ;; https://francismurillo.github.io/2017-03-30-Exploring-Emacs-rx-Macro/
+
       ;; Character literals - \1, \a, \newline, \u0000
+      ;; TODO also A-Z and other chars should be font-faced
       ("\\\\\\([[:punct:]]\\|[a-z0-9]+\\>\\)" 0 'clojure-character-face)
+      ;; ("\\\\\\(\\.\\|[a-z0-9]+\\>\\)" 0 'clojure-character-face)
+      ;; ("\\\\\\([[:punct:]]\\>\\)" 0 'clojure-character-face)
 
       ;; namespace definitions: (ns foo.bar)
       (,(concat "(\\<ns\\>[ \r\n\t]*"
