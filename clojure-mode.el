@@ -829,7 +829,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                    "declare"
 
                    ;; Special forms
-                   "def" "do" "if" "let" "let*" "var" "fn" "fn*" "loop" "loop*"
+                   "do" "if" "let" "let*" "var" "loop" "loop*"
                    "recur" "throw" "try" "catch" "finally"
                    "set!" "new" "."
                    "monitor-enter" "monitor-exit" "quote"
