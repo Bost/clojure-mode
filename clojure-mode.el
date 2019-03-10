@@ -736,6 +736,7 @@ Called by `imenu--generic-function'."
         (goto-char start)))))
 
 (eval-and-compile
+  (defconst clojure--whitespace-regexp "[ \r\n\t]*")
   (defconst clojure--sym-forbidden-rest-chars "][\";\'@\\^`~\(\)\{\}\\,\s\t\n\r"
     "A list of chars that a Clojure symbol cannot contain.
 See definition of 'macros': URL `http://git.io/vRGLD'.")
@@ -757,11 +758,10 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 (regexp-opt '("def" "defonce"))
                 ;; variable declarations
                 "\\)\\>"
-                ;; Any whitespace
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 ;; Possibly type or metadata
                 "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 "\\)*"
                 "\\(\\sw+\\)?")
        (1 font-lock-keyword-face)
@@ -772,11 +772,10 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                               "defrecord"))
                 ;; type declarations
                 "\\)\\>"
-                ;; Any whitespace
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 ;; Possibly type or metadata
                 "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 "\\)*"
                 "\\(\\sw+\\)?")
        (1 font-lock-keyword-face)
@@ -786,11 +785,10 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       (,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
                 "\\(def[^ \r\n\t]*\\)" ;; beware: this is an exclusion regexp
                 "\\>"
-                ;; Any whitespace
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 ;; Possibly type or metadata
                 "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 "\\)*"
                 (concat "\\(" clojure--sym-regexp "\\)?"))
        (1 font-lock-keyword-face)
@@ -871,7 +869,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 "[ \r\n\t]*"
                 ;; Possibly metadata, shorthand and/or longhand
                 "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)"
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 "\\)*"
                 ;; namespace
                 "\\(" clojure--sym-regexp "\\)")
