@@ -780,8 +780,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       ;; Function definition (anything that starts with def and is not
       ;; listed above)
       (,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
-                "\\(def[^ \r\n\t]*\\)"
-                ;; Function declarations
+                "\\(def[^ \r\n\t]*\\)" ;; beware: this is an exclusion regexp
                 "\\>"
                 ;; Any whitespace
                 "[ \r\n\t]*"
