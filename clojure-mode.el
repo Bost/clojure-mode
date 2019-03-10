@@ -758,7 +758,6 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 clojure--whitespace-regexp
                 "\\(?:clojure.core/\\)?\\("
                 (regexp-opt '("def" "defonce"))
-                ;; variable declarations
                 "\\)\\>"
                 clojure--whitespace-regexp
                 ;; Possibly type or metadata
@@ -774,7 +773,6 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 "\\(?:clojure.core/\\)?\\("
                 (regexp-opt '("defstruct" "deftype" "defprotocol"
                               "defrecord"))
-                ;; type declarations
                 "\\)\\>"
                 clojure--whitespace-regexp
                 ;; Possibly type or metadata
