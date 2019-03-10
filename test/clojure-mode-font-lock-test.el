@@ -771,6 +771,12 @@ POS."
     (should (eq (clojure-test-face-at 2 5) 'font-lock-keyword-face))
     (should (eq (clojure-test-face-at 7 9) 'font-lock-function-name-face))))
 
+(ert-deftest clojure-mode-syntax-table/function-def-whitespaces ()
+  :tags '(fontification syntax-table)
+  (clojure-test-with-temp-buffer "( defn foo [x] x)"
+    (should (eq (clojure-test-face-at 3 6) 'font-lock-keyword-face))
+    (should (eq (clojure-test-face-at 8 10) 'font-lock-function-name-face))))
+
 (ert-deftest clojure-mode-syntax-table/custom-def-with-special-chars1 ()
   :tags '(fontification syntax-table)
   (clojure-test-with-temp-buffer "(defn* foo [x] x)"

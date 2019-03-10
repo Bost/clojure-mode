@@ -11,6 +11,14 @@
 ;; try to byte-recompile the clojure-mode.el when the face of 'fn' is 't'
 (fn foo [x] x)
 
+;; whitespace(s) after open paren
+( let [])
+( clojure.core/let [])
+( clojure.core/def {:added "1.2"} foo 1)
+( ns zark.q-learning)
+( fn foo [x] x)
+( def foo [x] x)
+
 #_
 ;; the myfn sexp should have a comment face
 (mysfn 101
