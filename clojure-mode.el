@@ -821,8 +821,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
           '("def" "do" "if" "let" "let*" "var" "fn" "fn*" "loop" "loop*"
             "recur" "throw" "try" "catch" "finally"
             "set!" "new" "."
-            "monitor-enter" "monitor-exit" "quote") t)
-         "\\>")
+            "monitor-enter" "monitor-exit" "quote") 'words))
        1 font-lock-keyword-face)
       ;; Built-in binding and flow of control forms
       (,(concat
@@ -838,8 +837,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
             "ns" "in-ns"
             "with-open" "with-local-vars" "binding"
             "with-redefs" "with-redefs-fn"
-            "declare") t)
-         "\\>")
+            "declare") 'words))
        1 font-lock-keyword-face)
       ;; Macros similar to let, when, and while
       (,(rx symbol-start
@@ -848,7 +846,6 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
             symbol-end)
        0 font-lock-keyword-face)
       (,(concat
-         "\\<"
          (regexp-opt
           '("*1" "*2" "*3" "*agent*"
             "*allow-unresolved-vars*" "*assert*" "*clojure-version*"
@@ -860,28 +857,22 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
             "*print-meta*" "*print-readably*"
             "*read-eval*" "*source-path*"
             "*unchecked-math*"
-            "*use-context-classloader*" "*warn-on-reflection*")
-          t)
-         "\\>")
+            "*use-context-classloader*" "*warn-on-reflection*") 'words))
        0 font-lock-builtin-face)
       ;; Dynamic variables - *something* or @*something*
       (,(concat "\\(?:\\<\\|/\\)@?\\(\\*" clojure--sym-regexp "\\*\\)\\>")
        1 font-lock-variable-name-face)
       ;; Global constants - nil, true, false
       (,(concat
-         "\\<"
          (regexp-opt
-          '("true" "false" "nil") t)
-         "\\>")
+          '("true" "false" "nil") 'words))
        0 font-lock-constant-face)
       ;; Character literals - \1, \a, \newline, \u0000
       ("\\\\\\([[:punct:]]\\|[a-z0-9]+\\>\\)" 0 'clojure-character-face)
 
       ;; namespace definitions: (ns foo.bar)
       (,(concat "("
-                "\\<"
-                (regexp-opt '("ns"))
-                "\\>"
+                (regexp-opt '("ns") 'words)
                 clojure--whitespace-regexp
                 ;; Possibly metadata, shorthand and/or longhand
                 "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)"
