@@ -754,7 +754,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
 (defconst clojure-font-lock-keywords
   (eval-when-compile
     `( ;; Top-level variable definition
-      (,(concat "(\\(?:clojure.core/\\)?\\("
+      (,(concat "("
+                clojure--whitespace-regexp
+                "\\(?:clojure.core/\\)?\\("
                 (regexp-opt '("def" "defonce"))
                 ;; variable declarations
                 "\\)\\>"
@@ -767,7 +769,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
        (1 font-lock-keyword-face)
        (2 font-lock-variable-name-face nil t))
       ;; Type definition
-      (,(concat "(\\(?:clojure.core/\\)?\\("
+      (,(concat "("
+                clojure--whitespace-regexp
+                "\\(?:clojure.core/\\)?\\("
                 (regexp-opt '("defstruct" "deftype" "defprotocol"
                               "defrecord"))
                 ;; type declarations
@@ -782,7 +786,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
        (2 font-lock-type-face nil t))
       ;; Function definition (anything that starts with def and is not
       ;; listed above)
-      (,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+      (,(concat "("
+                clojure--whitespace-regexp
+                "\\(?:" clojure--sym-regexp "/\\)?"
                 "\\(def[^ \r\n\t]*\\)" ;; beware: this is an exclusion regexp
                 "\\>"
                 clojure--whitespace-regexp
@@ -794,7 +800,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
        (1 font-lock-keyword-face)
        (2 font-lock-function-name-face nil t))
       ;; (fn name? args ...)
-      (,(concat "(\\(?:clojure.core/\\)?\\(fn\\)[ \t]+"
+      (,(concat "("
+                clojure--whitespace-regexp
+                "\\(?:clojure.core/\\)?\\(fn\\)[ \t]+"
                 ;; Possibly type
                 "\\(?:#?^\\sw+[ \t]*\\)?"
                 ;; Possibly name
@@ -806,6 +814,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       ;; Special forms
       (,(concat
          "("
+         clojure--whitespace-regexp
          (regexp-opt
           '("def" "do" "if" "let" "let*" "var" "fn" "fn*" "loop" "loop*"
             "recur" "throw" "try" "catch" "finally"
@@ -815,7 +824,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
        1 font-lock-keyword-face)
       ;; Built-in binding and flow of control forms
       (,(concat
-         "(\\(?:clojure.core/\\)?"
+         "("
+         clojure--whitespace-regexp
+         "\\(?:clojure.core/\\)?"
          (regexp-opt
           '("letfn" "case" "cond" "cond->" "cond->>" "condp"
             "for" "when" "when-not" "when-let" "when-first" "when-some"
@@ -866,7 +877,7 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
 
       ;; namespace definitions: (ns foo.bar)
       (,(concat "(\\<ns\\>"
-                "[ \r\n\t]*"
+                clojure--whitespace-regexp
                 ;; Possibly metadata, shorthand and/or longhand
                 "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)"
                 clojure--whitespace-regexp
