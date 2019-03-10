@@ -7,17 +7,39 @@
    [CmlCase]
    [ve/yCom|pLex.stu-ff]))
 
-(defn foo [x] x)
 ;; try to byte-recompile the clojure-mode.el when the face of 'fn' is 't'
+(fn [x] x)
+(fn {:bar "1.2"} [x] x)
+(fn ^{:bar "1.2"} [x] x)
+
 (fn foo [x] x)
+(fn {:bar "1.2"} foo [x] x)
+(fn ^{:bar "1.2"} foo [x] x)
+
+(defn foo [x] x)
+(defn {:bar "1.2"} foo [x] x)
+(defn ^{:bar "1.2"} foo [x] x)
 
 ;; whitespace(s) after open paren
 ( let [])
 ( clojure.core/let [])
 ( clojure.core/def {:added "1.2"} foo 1)
 ( ns zark.q-learning)
+
+( fn [x] x)
+( fn {:bar "1.2"} [x] x)
+( fn ^{:bar "1.2"} [x] x)
+
 ( fn foo [x] x)
-( def foo [x] x)
+( fn {:bar "1.2"} foo [x] x)
+( fn ^{:bar "1.2"} foo [x] x)
+
+( defn foo [x] x)
+( defn {:bar "1.2"} foo [x] x)
+( defn ^{:bar "1.2"} foo [x] x)
+
+(defonce foo 1 )
+( defonce foo 1 )
 
 #_
 ;; the myfn sexp should have a comment face
