@@ -760,7 +760,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 ;; Any whitespace
                 "[ \r\n\t]*"
                 ;; Possibly type or metadata
-                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)[ \r\n\t]*\\)*"
+                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
+                "[ \r\n\t]*"
+                "\\)*"
                 "\\(\\sw+\\)?")
        (1 font-lock-keyword-face)
        (2 font-lock-variable-name-face nil t))
@@ -773,7 +775,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 ;; Any whitespace
                 "[ \r\n\t]*"
                 ;; Possibly type or metadata
-                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)[ \r\n\t]*\\)*"
+                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
+                "[ \r\n\t]*"
+                "\\)*"
                 "\\(\\sw+\\)?")
        (1 font-lock-keyword-face)
        (2 font-lock-type-face nil t))
@@ -785,7 +789,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
                 ;; Any whitespace
                 "[ \r\n\t]*"
                 ;; Possibly type or metadata
-                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)[ \r\n\t]*\\)*"
+                "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
+                "[ \r\n\t]*"
+                "\\)*"
                 (concat "\\(" clojure--sym-regexp "\\)?"))
        (1 font-lock-keyword-face)
        (2 font-lock-function-name-face nil t))
@@ -861,9 +867,12 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       ("\\\\\\([[:punct:]]\\|[a-z0-9]+\\>\\)" 0 'clojure-character-face)
 
       ;; namespace definitions: (ns foo.bar)
-      (,(concat "(\\<ns\\>[ \r\n\t]*"
+      (,(concat "(\\<ns\\>"
+                "[ \r\n\t]*"
                 ;; Possibly metadata, shorthand and/or longhand
-                "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)[ \r\n\t]*\\)*"
+                "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)"
+                "[ \r\n\t]*"
+                "\\)*"
                 ;; namespace
                 "\\(" clojure--sym-regexp "\\)")
        (1 font-lock-type-face))
@@ -962,7 +971,10 @@ highlighted region)."
                                (save-excursion
                                  (goto-char startpos)
                                  (goto-char (+ startpos (length (sexp-at-point)) 2))
-                                 (looking-at "[ \r\n\t]*\)")))))
+                                 (looking-at
+                                  (concat
+                                   "[ \r\n\t]*"
+                                   "\)"))))))
                 font-lock-doc-face
               font-lock-string-face))))
     font-lock-comment-face))
