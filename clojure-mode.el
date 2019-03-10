@@ -756,9 +756,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
     `( ;; Top-level variable definition
       (,(concat "("
                 clojure--whitespace-regexp
-                "\\(?:clojure.core/\\)?\\("
-                (regexp-opt '("def" "defonce"))
-                "\\)\\>"
+                "\\(?:clojure.core/\\)?"
+                (regexp-opt '("def" "defonce") t)
+                "\\>"
                 clojure--whitespace-regexp
                 ;; Possibly type or metadata
                 "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
@@ -770,10 +770,10 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       ;; Type definition
       (,(concat "("
                 clojure--whitespace-regexp
-                "\\(?:clojure.core/\\)?\\("
+                "\\(?:clojure.core/\\)?"
                 (regexp-opt '("defstruct" "deftype" "defprotocol"
-                              "defrecord"))
-                "\\)\\>"
+                              "defrecord") t)
+                "\\>"
                 clojure--whitespace-regexp
                 ;; Possibly type or metadata
                 "\\(?:#?^\\(?:{[^}]*}\\|\\sw+\\)"
