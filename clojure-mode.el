@@ -802,7 +802,9 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       ;; (fn name? args ...)
       (,(concat "("
                 clojure--whitespace-regexp
-                "\\(?:clojure.core/\\)?\\(fn\\)[ \t]+"
+                "\\(?:clojure.core/\\)?\\("
+                (regexp-opt '("fn"))
+                "\\)[ \t]+"
                 ;; Possibly type
                 "\\(?:#?^\\sw+[ \t]*\\)?"
                 ;; Possibly name
@@ -876,7 +878,10 @@ any number of matches of `clojure--sym-forbidden-rest-chars'."))
       ("\\\\\\([[:punct:]]\\|[a-z0-9]+\\>\\)" 0 'clojure-character-face)
 
       ;; namespace definitions: (ns foo.bar)
-      (,(concat "(\\<ns\\>"
+      (,(concat "("
+                "\\<"
+                (regexp-opt '("ns"))
+                "\\>"
                 clojure--whitespace-regexp
                 ;; Possibly metadata, shorthand and/or longhand
                 "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)"
